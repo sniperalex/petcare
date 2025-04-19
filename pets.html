@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets - PetCare System (v1.13)</title> <!-- Versão Atualizada -->
+    <title>Pets - PetCare System (v1.14)</title> <!-- Versão Atualizada -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -11,32 +11,21 @@
 <body class="body-with-sidebar">
 
     <!-- Header Mobile -->
-    <header class="mobile-header d-lg-none">
-        <i class="bi bi-list nav_toggle mobile-toggle" id="mobile-nav-toggle"></i>
-        <span class="mobile-header-title">Pets</span>
-         <!-- NOME USUARIO MOBILE -->
-         <span class="me-2 small" id="loggedInUserNameDisplayMobile"></span>
-        <div class="form-check form-switch ms-auto">
-            <input class="form-check-input" type="checkbox" id="darkModeSwitchMobile" role="switch">
-            <label class="form-check-label visually-hidden" for="darkModeSwitchMobile">Modo Escuro</label>
-        </div>
-    </header>
+    <header class="mobile-header d-lg-none"> <i class="bi bi-list nav_toggle mobile-toggle" id="mobile-nav-toggle"></i> <span class="mobile-header-title">Pets</span> <span class="me-2 small" id="loggedInUserNameDisplayMobile"></span> <div class="form-check form-switch ms-auto"> <input class="form-check-input" type="checkbox" id="darkModeSwitchMobile" role="switch"> <label class="form-check-label visually-hidden" for="darkModeSwitchMobile">Modo Escuro</label> </div> </header>
 
     <!-- Sidebar -->
     <div class="l-navbar" id="navbar">
         <nav class="nav">
             <div>
-                <div class="nav_brand">
-                    <i class="bi bi-list nav_toggle d-none d-lg-block" id="desktop-nav-toggle"></i>
-                    <a href="dashboard.html" class="nav_logo">PetCare</a>
-                </div>
+                <div class="nav_brand"> <i class="bi bi-list nav_toggle d-none d-lg-block" id="desktop-nav-toggle"></i> <a href="dashboard.html" class="nav_logo">PetCare</a> </div>
                 <div class="nav_list">
                     <a href="dashboard.html" class="nav_link"><i class="bi bi-grid nav_icon"></i><span class="nav_name">Dashboard</span></a>
                     <a href="pets.html" class="nav_link active"><i class="bi bi-heart-fill nav_icon"></i><span class="nav_name">Pets</span></a>
                     <a href="consultations.html" class="nav_link"><i class="bi bi-calendar-check nav_icon"></i><span class="nav_name">Consultas</span></a>
                     <a href="recipes.html" class="nav_link"><i class="bi bi-journal-text nav_icon"></i><span class="nav_name">Receitas</span></a>
+                    <a href="profile.html" class="nav_link"><i class="bi bi-person-badge nav_icon"></i><span class="nav_name">Meu Perfil</span></a> <!-- Link Perfil -->
                     <a href="register.html" class="nav_link admin-only"><i class="bi bi-person-plus nav_icon"></i><span class="nav_name">Cadastrar Usuário</span></a>
-                    <a href="#" class="nav_link admin-only"><i class="bi bi-people nav_icon"></i><span class="nav_name">Gerenciar Usuários</span></a>
+                    <a href="manage_users.html" class="nav_link admin-only"><i class="bi bi-people nav_icon"></i><span class="nav_name">Gerenciar Usuários</span></a>
                 </div>
             </div>
             <a href="index.html" class="nav_link" id="logout-link"><i class="bi bi-box-arrow-left nav_icon"></i><span class="nav_name">Sair</span></a>
@@ -46,62 +35,16 @@
     <!-- Conteúdo Principal -->
     <main class="content-wrapper" id="content-wrapper">
         <div class="container-fluid pt-3">
-            <!-- Cabeçalho e Botão Adicionar -->
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2"><i class="bi bi-heart-fill me-2"></i>Gerenciamento de Pets</h1>
-                <div class="d-flex align-items-center">
-                     <!-- NOME USUARIO DESKTOP -->
-                     <span id="loggedInUserNameDisplay" class="d-none d-lg-inline text-muted me-3"></span>
-                    <div class="form-check form-switch d-none d-lg-block me-3">
-                        <input class="form-check-input" type="checkbox" id="darkModeSwitchDesktop" role="switch">
-                        <label class="form-check-label" for="darkModeSwitchDesktop">Modo Escuro</label>
-                    </div>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <!-- Botão Adicionar (visível para Cliente e Admin) -->
-                        <button type="button" class="btn btn-success client-only admin-only" data-bs-toggle="modal" data-bs-target="#petModal" id="addPetButton">
-                            <i class="bi bi-plus-circle-fill me-1"></i> Adicionar Novo Pet
-                        </button>
-                         <!-- Veterinários não podem adicionar pets diretamente (a menos que sejam admin) -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mensagem de feedback -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> <h1 class="h2"><i class="bi bi-heart-fill me-2"></i>Gerenciamento de Pets</h1> <div class="d-flex align-items-center"> <span id="loggedInUserNameDisplay" class="d-none d-lg-inline me-3"></span> <div class="form-check form-switch d-none d-lg-block me-3"> <input class="form-check-input" type="checkbox" id="darkModeSwitchDesktop" role="switch"> <label class="form-check-label" for="darkModeSwitchDesktop">Modo Escuro</label> </div> <div class="btn-toolbar mb-2 mb-md-0"> <button type="button" class="btn btn-success client-only admin-only" data-bs-toggle="modal" data-bs-target="#petModal" id="addPetButton"> <i class="bi bi-plus-circle-fill me-1"></i> Adicionar Pet </button> </div> </div> </div>
             <div id="pets-message" class="form-message mb-3"></div>
-
-            <!-- Container dos Cards de Pets -->
-            <div class="row" id="petsCardContainer">
-                <div class="col-12 text-center" id="petsLoadingPlaceholder">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
-                    <p class="mt-2">Carregando pets...</p>
-                </div>
-            </div> <!-- Fim da row dos cards -->
-
-        </div> <!-- Fim container-fluid -->
+            <div class="row" id="petsCardContainer"> <div class="col-12 text-center" id="petsLoadingPlaceholder"> <div class="spinner-border text-primary" role="status"> <span class="visually-hidden">Carregando...</span> </div> <p class="mt-2">Carregando pets...</p> </div> </div>
+        </div>
     </main>
 
     <!-- Modal Adicionar/Editar Pet -->
-    <div class="modal fade" id="petModal" tabindex="-1" aria-labelledby="petModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form id="petForm" novalidate>
-                    <div class="modal-header"> <h1 class="modal-title fs-5" id="petModalLabel">Adicionar Novo Pet</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div>
-                    <div class="modal-body"> <div id="modal-form-message" class="form-message mb-3"></div> <input type="hidden" id="petId"> <div class="row g-3"> <div class="col-md-6"> <label for="petName" class="form-label">Nome <span class="text-danger">*</span></label> <input type="text" class="form-control" id="petName" required> <div class="invalid-feedback">O nome é obrigatório.</div> </div> <div class="col-md-6"> <label for="petSpecies" class="form-label">Espécie <span class="text-danger">*</span></label> <input type="text" class="form-control" id="petSpecies" required placeholder="Cão, Gato, etc."> <div class="invalid-feedback">A espécie é obrigatória.</div> </div> <div class="col-md-6"> <label for="petBreed" class="form-label">Raça</label> <input type="text" class="form-control" id="petBreed" placeholder="Labrador, Siamês, SRD"> </div> <div class="col-md-6"> <label for="petBirthDate" class="form-label">Data de Nascimento</label> <input type="date" class="form-control" id="petBirthDate" max=""> </div> <div class="col-md-8"> <label for="petPhotoFile" class="form-label">Foto do Pet</label> <input type="file" class="form-control" id="petPhotoFile" accept="image/png, image/jpeg, image/gif, image/webp"> <div class="form-text">Selecione um arquivo de imagem (JPG, PNG, GIF, WebP). Limite de ~1-2MB.</div> <div id="file-error-message" class="text-danger small mt-1"></div> </div> <div class="col-md-4 d-flex justify-content-center align-items-center"> <img id="photoPreview" src="img/pet_placeholder.png" alt="Preview da foto" class="img-thumbnail rounded-circle" width="100" height="100" style="object-fit: cover;"> </div> <div class="col-12"> <label for="petNotes" class="form-label">Observações</label> <textarea class="form-control" id="petNotes" rows="3" placeholder="Alergias, comportamento, comidas favoritas..."></textarea> </div> </div> </div>
-                    <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-primary" id="savePetButton">Salvar Pet</button> </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    <div class="modal fade" id="petModal"> <div class="modal-dialog modal-lg"> <div class="modal-content"> <form id="petForm" novalidate> <div class="modal-header"> <h1 class="modal-title fs-5" id="petModalLabel">Adicionar Pet</h1> <button type="button" class="btn-close" data-bs-dismiss="modal"></button> </div> <div class="modal-body"> <div id="modal-form-message" class="form-message mb-3"></div> <input type="hidden" id="petId"> <div class="row g-3"> <div class="col-md-6"> <label for="petName" class="form-label">Nome <span class="text-danger">*</span></label> <input type="text" class="form-control" id="petName" required> <div class="invalid-feedback">Obrigatório.</div> </div> <div class="col-md-6"> <label for="petSpecies" class="form-label">Espécie <span class="text-danger">*</span></label> <input type="text" class="form-control" id="petSpecies" required placeholder="Cão, Gato, etc."> <div class="invalid-feedback">Obrigatório.</div> </div> <div class="col-md-6"> <label for="petBreed" class="form-label">Raça</label> <input type="text" class="form-control" id="petBreed" placeholder="SRD, etc."> </div> <div class="col-md-6"> <label for="petBirthDate" class="form-label">Nascimento</label> <input type="date" class="form-control" id="petBirthDate" max=""> </div> <div class="col-md-8"> <label for="petPhotoFile" class="form-label">Foto</label> <input type="file" class="form-control" id="petPhotoFile" accept="image/*"> <div class="form-text">JPG, PNG, GIF, WebP (~2MB).</div> <div id="file-error-message" class="text-danger small mt-1"></div> </div> <div class="col-md-4 d-flex justify-content-center align-items-center"> <img id="photoPreview" src="img/pet_placeholder.png" alt="Preview" class="img-thumbnail rounded-circle" width="100" height="100" style="object-fit: cover;"> </div> <div class="col-12"> <label for="petNotes" class="form-label">Obs.</label> <textarea class="form-control" id="petNotes" rows="3"></textarea> </div> </div> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-primary" id="savePetButton">Salvar</button> </div> </form> </div> </div> </div>
     <!-- Modal Confirmação Exclusão -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content"> <div class="modal-header bg-danger text-white"> <h1 class="modal-title fs-5" id="deleteConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar Exclusão</h1> <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> Tem certeza que deseja excluir o pet <strong id="petNameToDelete"></strong>? Esta ação não pode ser desfeita. </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirmar Exclusão</button> </div> </div>
-      </div>
-    </div>
-
+    <div class="modal fade" id="deleteConfirmModal"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header bg-danger text-white"> <h1 class="modal-title fs-5" id="deleteConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill"></i> Excluir</h1> <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button> </div> <div class="modal-body"> Excluir <strong id="petNameToDelete"></strong>? </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> <button type="button" class="btn btn-danger" id="confirmDeleteButton">Confirmar</button> </div> </div> </div> </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
