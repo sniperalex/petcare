@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - PetCare System (v1.13)</title> <!-- Versão Atualizada -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-with-sidebar">
+
+    <!-- Header Mobile -->
+    <header class="mobile-header d-lg-none">
+        <i class="bi bi-list nav_toggle mobile-toggle" id="mobile-nav-toggle"></i>
+        <span class="mobile-header-title">Consultas</span>
+        <!-- NOME USUARIO MOBILE -->
+        <span class="me-2 small" id="loggedInUserNameDisplayMobile"></span>
+        <div class="form-check form-switch ms-auto">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitchMobile" role="switch">
+            <label class="form-check-label visually-hidden" for="darkModeSwitchMobile">Modo Escuro</label>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+            <div>
+                <div class="nav_brand">
+                    <i class="bi bi-list nav_toggle d-none d-lg-block" id="desktop-nav-toggle"></i>
+                    <a href="dashboard.html" class="nav_logo">PetCare</a>
+                </div>
+                <div class="nav_list">
+                    <a href="dashboard.html" class="nav_link"><i class="bi bi-grid nav_icon"></i><span class="nav_name">Dashboard</span></a>
+                    <a href="pets.html" class="nav_link"><i class="bi bi-heart-fill nav_icon"></i><span class="nav_name">Pets</span></a>
+                    <a href="consultations.html" class="nav_link active"><i class="bi bi-calendar-check nav_icon"></i><span class="nav_name">Consultas</span></a>
+                    <a href="recipes.html" class="nav_link"><i class="bi bi-journal-text nav_icon"></i><span class="nav_name">Receitas</span></a>
+                    <a href="register.html" class="nav_link admin-only"><i class="bi bi-person-plus nav_icon"></i><span class="nav_name">Cadastrar Usuário</span></a>
+                    <a href="#" class="nav_link admin-only"><i class="bi bi-people nav_icon"></i><span class="nav_name">Gerenciar Usuários</span></a>
+                </div>
+            </div>
+            <a href="index.html" class="nav_link" id="logout-link"><i class="bi bi-box-arrow-left nav_icon"></i><span class="nav_name">Sair</span></a>
+        </nav>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="content-wrapper" id="content-wrapper">
+        <div class="container-fluid pt-3">
+
+            <!-- Cabeçalho da Página -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"><i class="bi bi-calendar-check me-2"></i>Gerenciamento de Consultas</h1>
+                 <div class="d-flex align-items-center">
+                      <!-- NOME USUARIO DESKTOP -->
+                      <span id="loggedInUserNameDisplay" class="d-none d-lg-inline text-muted me-3"></span>
+                     <div class="form-check form-switch d-none d-lg-block me-3">
+                        <input class="form-check-input" type="checkbox" id="darkModeSwitchDesktop" role="switch">
+                        <label class="form-check-label" for="darkModeSwitchDesktop">Modo Escuro</label>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Mensagem de Feedback Geral -->
+            <div id="consultations-message" class="form-message mb-3"></div>
+
+            <!-- ======================== -->
+            <!-- === SEÇÃO CLIENTE === -->
+            <!-- ======================== -->
+            <div class="client-only" id="clientBookingSection">
+                <div class="row g-4">
+                    <!-- Coluna do Calendário -->
+                    <div class="col-lg-7 col-md-6">
+                         <div class="card shadow-sm">
+                             <div class="card-header"><i class="bi bi-calendar3 me-1"></i>Selecione uma Data Disponível</div>
+                             <div class="card-body">
+                                 <div id="clientCalendar">
+                                     <p class="text-center text-muted p-3"><span class="spinner-border spinner-border-sm me-2"></span>Carregando calendário...</p>
+                                 </div>
+                                 <div class="form-text mt-2"> Datas com disponibilidade estão habilitadas para seleção. </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <!-- Coluna do Formulário de Agendamento -->
+                    <div class="col-lg-5 col-md-6">
+                         <div class="card shadow-sm">
+                             <div class="card-header"><i class="bi bi-pencil-square me-1"></i>Agendar Consulta</div>
+                             <div class="card-body">
+                                 <form id="bookingForm" class="needs-validation" novalidate>
+                                     <div id="bookingForm-message" class="form-message mb-3"></div>
+                                     <div class="mb-3">
+                                         <label class="form-label">Data Selecionada:</label>
+                                         <p class="form-control-plaintext" id="displaySelectedBookingDate">Nenhuma</p>
+                                         <input type="hidden" id="selectedBookingDateHidden" required>
+                                         <div class="invalid-feedback" id="date-required-feedback" style="display: none;">Selecione uma data no calendário.</div>
+                                     </div>
+                                     <div class="mb-3">
+                                         <label for="bookingPetId" class="form-label">1. Selecione o Pet <span class="text-danger">*</span></label>
+                                         <select class="form-select" id="bookingPetId" required disabled>
+                                             <option value="" disabled selected>Selecione a data primeiro</option>
+                                         </select>
+                                         <div class="invalid-feedback">Selecione o pet.</div>
+                                     </div>
+                                     <div class="mb-3">
+                                         <label for="bookingVetId" class="form-label">2. Selecione o Veterinário(a) <span class="text-danger">*</span></label>
+                                         <select class="form-select" id="bookingVetId" required disabled>
+                                             <option value="" disabled selected>Selecione a data primeiro</option>
+                                         </select>
+                                         <div class="invalid-feedback">Selecione o veterinário disponível para a data.</div>
+                                     </div>
+                                     <div class="mb-3">
+                                         <label for="bookingReason" class="form-label">3. Motivo da Consulta</label>
+                                         <textarea class="form-control" id="bookingReason" rows="3" placeholder="Ex: Vacinação anual, check-up, consulta de rotina..."></textarea>
+                                     </div>
+                                     <div class="text-end">
+                                          <button type="submit" class="btn btn-success" id="bookAppointmentButton" disabled>
+                                              <i class="bi bi-check-lg me-1"></i> Agendar Consulta
+                                         </button>
+                                     </div>
+                                </form>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Card: Minhas Consultas Agendadas -->
+                <div class="card mb-4 shadow-sm mt-4">
+                    <div class="card-header">
+                         <i class="bi bi-list-task me-1"></i> Minhas Consultas Agendadas
+                    </div>
+                     <div class="card-body p-0">
+                        <ul class="list-group list-group-flush" id="clientBookedAppointmentsList">
+                            <li class="list-group-item text-center text-muted">Carregando suas consultas...</li>
+                        </ul>
+                     </div>
+                </div>
+            </div>
+
+
+            <!-- ============================ -->
+            <!-- === SEÇÃO VETERINÁRIO ==== -->
+            <!-- ============================ -->
+             <div class="vet-only"> <!-- Visível para Vet E Admin -->
+                 <div class="card mb-4 shadow-sm">
+                     <div class="card-header">
+                         <i class="bi bi-clipboard2-pulse-fill me-1"></i> Consultas Agendadas para Mim
+                     </div>
+                     <div class="card-body">
+                          <div id="vet-consultations-message" class="form-message mb-3"></div>
+                          <div class="table-responsive">
+                              <table class="table table-striped table-hover align-middle">
+                                 <thead>
+                                     <tr>
+                                         <th>Data</th><th>Hora</th><th>Pet</th><th>Tutor</th><th>Motivo</th><th style="min-width: 150px;">Status</th><th>Diagnóstico</th>
+                                     </tr>
+                                 </thead>
+                                  <tbody id="vetBookedConsultationsTable">
+                                     <tr><td colspan="7" class="text-center text-muted py-3" id="loadingVetBookings"><span class="spinner-border spinner-border-sm me-2"></span> Carregando suas consultas...</td></tr>
+                                 </tbody>
+                              </table>
+                          </div>
+                     </div>
+                 </div>
+             </div>
+
+
+            <!-- ============================ -->
+            <!-- === SEÇÕES ADMINISTRADOR === -->
+            <!-- ============================ -->
+
+            <!-- Card: Gerenciar Disponibilidade (Admin Only) -->
+            <div class="card admin-only mb-4 shadow-sm">
+                <div class="card-header"> <i class="bi bi-calendar-plus-fill me-1"></i> Cadastrar Nova Disponibilidade (Admin) </div>
+                <div class="card-body">
+                     <form id="availabilityForm" class="needs-validation" novalidate>
+                         <div id="availability-form-message" class="form-message mb-3"></div>
+                         <div class="row g-3 align-items-end">
+                             <div class="col-md-5 col-lg-4"> <label for="availabilityDateInput" class="form-label">1. Selecione a Data <span class="text-danger">*</span></label> <input type="date" class="form-control" id="availabilityDateInput" required min=""> <div class="invalid-feedback">Por favor, selecione uma data válida.</div> </div>
+                             <div class="col-md-5 col-lg-4"> <label for="availabilityVetId" class="form-label">2. Selecione o Veterinário(a) <span class="text-danger">*</span></label> <select class="form-select" id="availabilityVetId" required> <option value="" disabled selected>Selecione...</option> </select> <div class="invalid-feedback">Selecione o veterinário.</div> </div>
+                             <div class="col-md-2 col-lg-4 text-md-start text-lg-end"> <button type="submit" class="btn btn-primary w-100 w-md-auto" id="saveAvailabilityButton"> <i class="bi bi-check-lg me-1"></i> Salvar </button> </div>
+                         </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Card: Disponibilidades Cadastradas (Admin Only) -->
+             <div class="card admin-only mb-4 shadow-sm">
+                <div class="card-header"> <i class="bi bi-calendar-week me-1"></i> Disponibilidades Cadastradas (Admin) </div>
+                 <div class="card-body p-0"> <ul class="list-group list-group-flush" id="availabilitiesList"> <li class="list-group-item text-center text-muted" id="availabilitiesLoading"> <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Carregando...</span></div> Carregando disponibilidades... </li> </ul> </div>
+             </div>
+
+            <!-- Card: Consultas Agendadas (ADMIN ONLY - Tabela Geral) -->
+            <div class="card admin-only mb-4 shadow-sm">
+                <div class="card-header"> <i class="bi bi-calendar-check-fill me-1"></i> Consultas Agendadas (Todas - Visão Admin) </div>
+                <div class="card-body">
+                     <div class="table-responsive">
+                         <table class="table table-striped table-hover align-middle">
+                            <thead> <tr> <th>Data</th><th>Hora</th><th>Pet</th><th>Tutor</th><th>Veterinário(a)</th><th>Motivo</th><th>Status</th> </tr> </thead>
+                             <tbody id="bookedConsultationsTable"> <tr><td colspan="7" class="text-center text-muted py-3" id="loadingAllBookings"> <span class="spinner-border spinner-border-sm me-2"></span> Carregando consultas... </td></tr> </tbody>
+                         </table>
+                     </div>
+                </div>
+            </div>
+
+        </div> <!-- Fim container-fluid -->
+    </main>
+
+     <!-- Modal Adicionar/Editar Diagnóstico -->
+    <div class="modal fade" id="diagnosisModal" tabindex="-1" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="diagnosisForm">
+              <div class="modal-header"> <h1 class="modal-title fs-5" id="diagnosisModalLabel">Adicionar/Editar Diagnóstico</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div>
+              <div class="modal-body"> <div id="diagnosisModal-message" class="form-message mb-3"></div> <input type="hidden" id="diagnosisConsultationId"> <p class="mb-2"><small><strong>Consulta:</strong> <span id="diagnosisModalConsultationInfo">...</span></small></p> <div class="mb-3"> <label for="diagnosisText" class="form-label">Diagnóstico / Observações <span class="text-danger">*</span></label> <textarea class="form-control" id="diagnosisText" rows="6" placeholder="Descreva o diagnóstico, tratamento recomendado, observações..." required></textarea> <div class="invalid-feedback">O diagnóstico não pode ficar em branco.</div> </div> </div>
+              <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-primary" id="saveDiagnosisButton"> <i class="bi bi-save me-1"></i> Salvar Diagnóstico </button> </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
